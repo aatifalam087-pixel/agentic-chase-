@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>SupplyChainIQ</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap">
+<style>
+:root{--bg:#eef1f6;--sf:#fff;--ink:#101828;--mu:#667085;--ln:#e4e7ec;--ac:#2f5bea;--aci:#fff;--acs:#e8eeff;--cr:#d92d20;--crb:#fee4e2;--hi:#c4510a;--hib:#ffead5;--wa:#8a5a00;--wab:#fef0c7;--ok:#087443;--okb:#d1fadf;--br:#eaecf0;--sb:#0f1c33;--sbt:#dbe4f5;--sba:#8fb0ff;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#0a111f;--sf:#121c2e;--ink:#eaf0fa;--mu:#93a1b8;--ln:#243350;--ac:#7aa2ff;--aci:#0a1226;--acs:#1a2848;--cr:#ff8f86;--crb:#3b1a1f;--hi:#ffb27a;--hib:#3d2414;--wa:#f6cf6b;--wab:#3a2d0e;--ok:#6fdcaa;--okb:#12352a;--br:#1d2a42;--sb:#0a1426}}
+:root[data-theme=dark]{--bg:#0a111f;--sf:#121c2e;--ink:#eaf0fa;--mu:#93a1b8;--ln:#243350;--ac:#7aa2ff;--aci:#0a1226;--acs:#1a2848;--cr:#ff8f86;--crb:#3b1a1f;--hi:#ffb27a;--hib:#3d2414;--wa:#f6cf6b;--wab:#3a2d0e;--ok:#6fdcaa;--okb:#12352a;--br:#1d2a42;--sb:#0a1426}
+*{box-sizing:border-box}html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.45 Manrope,system-ui,"Segoe UI",Arial,sans-serif}
+button,select,input{font:inherit;color:inherit}
+button,select,input[type=number]{background:var(--sf);border:1px solid var(--ln);border-radius:8px;padding:7px 12px;cursor:pointer}
+button:hover:not(:disabled){border-color:var(--ac)}:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
+.pri{background:var(--ac);color:var(--aci);border-color:var(--ac);font-weight:700}.pri:disabled{opacity:.4;cursor:not-allowed}
+.shell{display:grid;grid-template-columns:272px 1fr;min-height:100vh}
+.side{background:var(--sb);color:var(--sbt);padding:20px 18px;position:sticky;top:0;height:100vh;overflow:auto}
+.brand{font-size:21px;font-weight:800;letter-spacing:-.02em;color:#fff}.brand span{color:var(--sba)}
+.side .hint{color:#8ea2c4}.side h2{font-size:13px;margin:22px 0 4px;color:#fff}
+.hint{color:var(--mu);font-size:12px;margin:0}
+.presets{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin:10px 0}
+.side button{background:#18294a;border-color:#2a3f68;color:var(--sbt);font-size:12px;padding:7px 6px}
+.side button[aria-pressed=true]{background:var(--sba);color:#0a1426;border-color:var(--sba);font-weight:700}
+.ctl{margin:14px 0}.ctl label{display:flex;justify-content:space-between;font-size:12px;font-weight:600;margin-bottom:5px}.ctl output{color:var(--sba)}
+.side select{width:100%;background:#18294a;border-color:#2a3f68;color:var(--sbt)}input[type=range]{width:100%;accent-color:#8fb0ff}
+.main{padding:20px 24px;min-width:0}
+.top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:14px}
+.top h1{margin:0;font-size:22px;letter-spacing:-.02em}.live{font-size:12px;color:var(--ok);font-weight:700}.live:before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--ok);margin-right:6px}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:14px}
+.kpi{background:var(--sf);border:1px solid var(--ln);border-radius:14px;padding:14px 16px;border-top:4px solid var(--ln)}
+.kpi.k1{border-top-color:var(--cr)}.kpi.k2{border-top-color:var(--ac)}.kpi.k3{border-top-color:var(--hi)}.kpi.k4{border-top-color:var(--ok)}
+.kpi small{color:var(--mu);font-size:12px;font-weight:600}.kpi b{display:block;font-size:26px;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.alert{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;border-radius:14px;padding:14px 18px;margin-bottom:14px;background:var(--crb);color:var(--cr);font-weight:700}
+.alert.ok{background:var(--okb);color:var(--ok)}.alert .pri{background:var(--cr);border-color:var(--cr);color:#fff}.alert.ok .pri{background:var(--ok);border-color:var(--ok)}
+.tabs{display:flex;gap:4px;border-bottom:1px solid var(--ln);margin-bottom:14px}
+.tab{border:0;border-bottom:3px solid transparent;border-radius:0;background:none;padding:10px 14px;font-weight:700;color:var(--mu)}.tab[aria-selected=true]{color:var(--ink);border-bottom-color:var(--ac)}
+.card{background:var(--sf);border:1px solid var(--ln);border-radius:14px;padding:16px;margin-bottom:14px;min-width:0}
+.card h2{font-size:15px;margin:0 0 2px}.head{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+.cols{display:grid;grid-template-columns:1.1fr 1fr;gap:14px;align-items:start}.cols .card{margin:0}
+.chips{display:flex;gap:6px}.chips button{border-radius:20px;font-size:12px;padding:5px 12px}.chips button[aria-pressed=true]{background:var(--acs);color:var(--ac);border-color:var(--ac);font-weight:700}
+.tw{overflow-x:auto}table{width:100%;border-collapse:collapse;font-size:13px;font-variant-numeric:tabular-nums}
+th{text-align:left;font-weight:700;color:var(--mu);font-size:12px;padding:8px;border-bottom:1px solid var(--ln);white-space:nowrap}
+td{padding:10px 8px;border-bottom:1px solid var(--ln);vertical-align:middle}tr:last-child td{border:0}td small{display:block;color:var(--mu);font-size:11px}.r{text-align:right}
+tr.sku{cursor:pointer}tr.sku:hover td{background:var(--br)}tr.sku.on td{background:var(--acs)}tr.sku.on td:first-child{box-shadow:inset 4px 0 var(--ac)}
+.badge{display:inline-block;font-size:11px;font-weight:800;padding:3px 9px;border-radius:20px;white-space:nowrap}
+.CRITICAL{background:var(--crb);color:var(--cr)}.HIGH{background:var(--hib);color:var(--hi)}.WATCH{background:var(--wab);color:var(--wa)}.HEALTHY,.done{background:var(--okb);color:var(--ok)}.pend{background:var(--wab);color:var(--wa)}
+.track{position:relative;height:8px;border-radius:5px;background:var(--br);min-width:110px}.fill{position:absolute;inset:0 auto 0 0;border-radius:5px;background:var(--ok)}
+.track.CRITICAL .fill{background:var(--cr)}.track.HIGH .fill{background:var(--hi)}.track.WATCH .fill{background:var(--wa)}.mark{position:absolute;top:-4px;width:2px;height:16px;background:var(--ink)}
+.facts{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:12px 0}.facts div{background:var(--br);border-radius:10px;padding:8px 10px;font-size:12px;color:var(--mu)}.facts b{display:block;color:var(--ink);font-size:15px}
+.rec{background:var(--acs);color:var(--ac);border-radius:10px;padding:10px 12px;font-weight:700;display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap}
+#tip{font-size:12px;color:var(--mu);min-height:34px;margin:6px 0}#tip b{color:var(--ink)}
+svg.ch{width:100%;height:auto;display:block;touch-action:pan-y;cursor:crosshair}.lg{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--mu);margin-top:6px}
+input.qty{width:84px;text-align:right}.sup{max-width:190px}
+.bar{display:flex;gap:10px;justify-content:space-between;align-items:center;flex-wrap:wrap;margin-top:12px;padding-top:12px;border-top:1px solid var(--ln)}
+.log{list-style:none;margin:0;padding:0;font-size:13px}.log li{padding:8px 0;border-bottom:1px solid var(--ln)}.log li:last-child{border:0}.log small{color:var(--mu)}
+.hidden{display:none!important}.best td{background:var(--okb)}
+dialog{border:1px solid var(--ln);border-radius:16px;background:var(--sf);color:var(--ink);padding:20px;width:min(560px,94vw)}dialog::backdrop{background:rgba(8,15,30,.55)}
+dialog h2{margin:0 0 4px}.po{border:1px solid var(--ln);border-radius:10px;padding:10px 12px;margin:10px 0;font-size:13px}.po header{display:flex;justify-content:space-between;font-weight:800;margin-bottom:4px}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);border-radius:10px;padding:11px 16px;max-width:min(92vw,440px);opacity:0;pointer-events:none;transition:opacity .2s;z-index:50}.toast.on{opacity:1}
+.foot{text-align:center;color:var(--mu);font-size:12px;padding:8px}
+@media(max-width:1000px){.shell{grid-template-columns:1fr}.side{position:static;height:auto}.cols{grid-template-columns:1fr}.kpis{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){.main{padding:12px}.facts{grid-template-columns:1fr 1fr}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style></head><body><div class="shell">
+<aside class="side"><div class="brand">SupplyChain<span>IQ</span></div><p class="hint">Inventory risk and purchasing for your network.</p>
+<h2>Scenario</h2><p class="hint">Stress-test the plan. Everything recalculates.</p><div class="presets" id="presets" role="group" aria-label="Scenario presets"></div>
+<div class="ctl"><label for="demand">Demand increase <output id="demandV"></output></label><input id="demand" type="range" min="0" max="100" step="5" value="0"></div>
+<div class="ctl"><label for="delay">Extra supplier delay <output id="delayV"></output></label><input id="delay" type="range" min="0" max="10" value="0"></div>
+<div class="ctl"><label for="safety">Safety buffer <output id="safetyV"></output></label><input id="safety" type="range" min=".5" max="3" step=".05" value="1.65"></div>
+<div class="ctl"><label for="cover">Stock to hold after delivery <output id="coverV"></output></label><input id="cover" type="range" min="7" max="30" value="14"></div>
+<div class="ctl"><label for="objective">Pick suppliers for</label><select id="objective"><option value="balanced">Cost and reliability</option><option value="fast">Fastest recovery</option><option value="cheap">Lowest unit price</option></select></div>
+<button id="reset" style="width:100%">Reset to normal</button></aside>
+<main class="main"><div class="top"><div><h1>Inventory control tower</h1><div class="hint" id="asof"></div></div><div><span class="live">Live simulation</span> &nbsp;<button id="export">Download plan (CSV)</button></div></div>
+<div class="kpis"><div class="kpi k1"><small>Products at risk</small><b id="k1"></b></div><div class="kpi k2"><small>Recommended spend</small><b id="k2"></b></div><div class="kpi k3"><small>Lowest days of stock</small><b id="k3"></b></div><div class="kpi k4"><small>Expected service level</small><b id="k4"></b></div></div>
+<div class="alert" id="alert" role="status"><span id="alertT"></span><button class="pri" id="review">Review orders</button></div>
+<div class="tabs" role="tablist"><button class="tab" role="tab" data-tab="overview" aria-selected="true">Control tower</button><button class="tab" role="tab" data-tab="orders" aria-selected="false">Purchase orders</button><button class="tab" role="tab" data-tab="suppliers" aria-selected="false">Suppliers</button></div>
+<div id="overview"><div class="cols"><section class="card"><div class="head"><div><h2>Inventory position</h2><p class="hint">Select a product to see its 45-day outlook.</p></div><div class="chips" id="chips"><button data-f="all" aria-pressed="true">All</button><button data-f="risk" aria-pressed="false">At risk</button></div></div><div class="tw"><table><thead><tr><th>Product</th><th class="r">Stock</th><th style="min-width:140px">Days of stock</th><th>Status</th></tr></thead><tbody id="rows"></tbody></table></div><p class="hint" style="margin-top:10px">The black line on each bar marks the fastest possible delivery.</p></section>
+<section class="card" id="detail"></section></div></div>
+<div id="orders" class="hidden"><div class="cols" style="grid-template-columns:1.7fr 1fr"><section class="card"><div class="head"><div><h2>Orders to place</h2><p class="hint">Change the supplier or quantity. Orders over $25,000 need manager approval.</p></div></div><div class="tw"><table><thead><tr><th><input type="checkbox" id="all" aria-label="Select all"></th><th>Product</th><th>Supplier</th><th class="r">Quantity</th><th class="r">Arrives</th><th class="r">Cost</th></tr></thead><tbody id="planRows"></tbody></table></div><div class="bar"><span class="hint" id="selInfo"></span><button class="pri" id="create" disabled>Create purchase orders</button></div></section>
+<section class="card"><h2>Activity</h2><p class="hint">Decisions made in this session.</p><ul class="log" id="log"></ul></section></div></div>
+<div id="suppliers" class="hidden"><section class="card"><div class="head"><div><h2>Supplier comparison</h2><p class="hint">Match score rates each supplier against your priority. Best option scores 100.</p></div></div><div class="tw"><table><thead><tr><th>Product</th><th>Supplier</th><th class="r">Unit price</th><th class="r">Delivery</th><th class="r">On-time</th><th class="r">Capacity</th><th class="r">Match</th></tr></thead><tbody id="supRows"></tbody></table></div></section></div>
+<div class="foot">Prototype with sample data. Not connected to an ERP or to suppliers.</div></main></div>
+<dialog id="dlg"><h2>Confirm purchase orders</h2><p class="hint">One order is created per supplier.</p><div id="dlgBody"></div><div class="bar" style="border:0"><button id="cancel">Back</button><button class="pri" id="confirm">Confirm and send</button></div></dialog><div class="toast" id="toast" role="status"></div>
+<script>
+const P=[{sku:"P-101",name:"Arabica Coffee Beans",wh:"Rotterdam DC",stock:15,d:10,sd:2,moq:30,oo:null},{sku:"P-102",name:"Packaging Cartons",wh:"Hamburg DC",stock:420,d:35,sd:7,moq:120,oo:null},{sku:"P-103",name:"Olive Oil 1L",wh:"Rotterdam DC",stock:68,d:8,sd:1.5,moq:45,oo:null},{sku:"P-104",name:"Almond Milk",wh:"Antwerp DC",stock:34,d:12,sd:2.5,moq:60,oo:{q:60,eta:4}},{sku:"P-105",name:"Paper Cups",wh:"Hamburg DC",stock:950,d:40,sd:5,moq:200,oo:null},{sku:"P-106",name:"Dark Chocolate",wh:"Antwerp DC",stock:22,d:6,sd:1.5,moq:40,oo:null}];
+const S=[["P-101","SwiftSource",510,2,.97,100],["P-101","ValueTrade",455,7,.91,100],["P-101","GlobalBulk",430,10,.84,200],["P-102","SwiftSource",12,2,.97,300],["P-102","ValueTrade",10,5,.93,300],["P-103","SwiftSource",180,3,.97,50],["P-103","ValueTrade",162,8,.92,50],["P-104","SwiftSource",72,2,.97,100],["P-104","ValueTrade",65,6,.90,100],["P-105","SwiftSource",8,2,.97,500],["P-105","ValueTrade",7,5,.94,500],["P-106","SwiftSource",240,2,.97,50],["P-106","ValueTrade",215,7,.91,50]].map(x=>({sku:x[0],name:x[1],price:x[2],lead:x[3],ontime:x[4],cap:x[5]}));
+const sales={};P.forEach((p,i)=>sales[p.sku]=Array.from({length:28},(_,d)=>Math.max(0,Math.round(p.d*(d%7>=5?1.2:1)(1+.12*Math.sin((d+33)/8))+Math.sin((d+34)(i+2))p.sd.65))));
+const PRE=[["Normal",0,0,1.65],["Supplier delays",0,5,1.65],["Demand surge",40,0,1.65],["Both at once",40,4,1.9]];
+const $=id=>document.getElementById(id),money=n=>new Intl.NumberFormat("en-US",{style:"currency",currency:"USD",maximumFractionDigits:0}).format(n),f1=n=>n.toFixed(1);
+const today=new Date(),dt=n=>{const d=new Date(today);d.setDate(d.getDate()+Math.round(n));return d.toLocaleDateString("en-US",{month:"short",day:"numeric"})};
+const def={demand:0,delay:0,safety:1.65,cover:14,objective:"balanced"};
+let st={...def},data=[],plan=[],cur="P-101",flt="all",hov=null,sel=new Set(),ovr={},qO={},issued={},logs=[],seq=4821,tab="overview";
+function runout(p,a){let s=p.stock;for(let t=1;t<=60;t++){const n=s-a+(p.oo&&t===p.oo.eta?p.oo.q:0);if(n<=0)return t-1+s/a;s=n}return 60}
+function calc(){const k=1+st.demand/100;data=P.map(p=>{const a=(.65*sales[p.sku].slice(-14).reduce((x,y)=>x+y,0)/14+.35*p.d)k,h=sales[p.sku],m=h.reduce((x,y)=>x+y,0)/h.length,sd=Math.sqrt(h.reduce((x,y)=>x+(y-m)2,0)/(h.length-1))*k,opts=S.filter(s=>s.sku===p.sku).map(s=>({...s,eff:s.lead+st.delay})),fast=Math.min(...opts.map(s=>s.eff)),days=runout(p,a),saf=st.safety*sd*Math.sqrt(Math.max(1,fast)),gap=fast-days,risk=gap>=2?"CRITICAL":gap>=0?"HIGH":days<fast+2?"WATCH":"HEALTHY",q0=Math.max(0,Math.ceil(a(fast+st.cover)+saf-p.stock-(p.oo?p.oo.q:0)));
+opts.forEach(s=>s.raw=st.objective==="cheap"?s.price:st.objective==="fast"?s.eff*100-s.ontime*10:s.price*(1+(1-s.ontime).8)+s.eff*a.12);opts.sort((x,y)=>x.raw-y.raw);opts.forEach(s=>s.score=Math.round(opts[0].raw/s.raw*100));
+const ch=opts.find(s=>s.name===ovr[p.sku])||opts[0],qty=q0?Math.min(Math.max(qO[p.sku]??q0,p.moq),ch.cap):0;return{...p,a,days,fast,gap,risk,opts,ch,qty,q0,saf:Math.ceil(saf),rop:Math.ceil(a*fast+saf),cost:qty*ch.price}});
+plan=data.filter(p=>p.q0).sort((x,y)=>x.gap<y.gap?1:-1).sort((x,y)=>y.gap-x.gap)}
+const bd=r=><span class="badge ${r}">${{CRITICAL:"Critical",HIGH:"High",WATCH:"Watch",HEALTHY:"No risk"}[r]}</span>;
+function proj(p,w){return Array.from({length:46},(_,t)=>Math.max(0,p.stock-p.a*t+(p.oo&&t>=p.oo.eta?p.oo.q:0)+(w&&p.qty&&t>=p.ch.eff?p.qty:0)))}
+function chart(p){const A=proj(p,0),B=proj(p,1),W=640,H=250,L=46,Bt=28,mx=Math.max(...B,...A,p.saf)1.1||10,x=t=>L+t(W-L-12)/45,y=v=>H-Bt-v/mx*(H-Bt-14),pts=a=>a.map((v,t)=>x(t)+","+y(v)).join(" ");
+let g="";for(let i=0;i<=3;i++){const v=Math.round(mx*i/3);g+=<line x1="${L}" x2="${W-12}" y1="${y(v)}" y2="${y(v)}" stroke="var(--ln)"/><text x="${L-6}" y="${y(v)+4}" text-anchor="end" font-size="11" fill="var(--mu)">${v}</text>}
+for(const t of [0,15,30,45])g+=<text x="${x(t)}" y="${H-8}" text-anchor="${t?t===45?"end":"middle":"start"}" font-size="11" fill="var(--mu)">${t?dt(t):"Today"}</text>;
+const e=p.ch.eff,gapB=p.days<e?<rect x="${x(p.days)}" y="12" width="${x(e)-x(p.days)}" height="${H-Bt-12}" fill="var(--crb)" opacity=".9"/>:"";
+let o=<svg class="ch" id="svg" viewBox="0 0 ${W} ${H}" role="img" aria-label="45-day stock outlook for ${p.name}">${g}${gapB}<line x1="${L}" x2="${W-12}" y1="${y(p.saf)}" y2="${y(p.saf)}" stroke="var(--wa)" stroke-dasharray="5 4"/><text x="${W-14}" y="${y(p.saf)-5}" text-anchor="end" font-size="11" fill="var(--wa)">Safety stock ${p.saf}</text><line x1="${x(e)}" x2="${x(e)}" y1="12" y2="${H-Bt}" stroke="var(--ac)" stroke-dasharray="3 3"/><text x="${x(e)+4}" y="24" font-size="11" fill="var(--ac)" font-weight="700">Delivery ${dt(e)}</text><polyline fill="none" stroke="var(--cr)" stroke-width="2.5" stroke-linejoin="round" points="${pts(A)}"/><polyline fill="none" stroke="var(--ac)" stroke-width="2.5" stroke-linejoin="round" points="${pts(B)}"/>;
+if(hov!=null)o+=<line x1="${x(hov)}" x2="${x(hov)}" y1="12" y2="${H-Bt}" stroke="var(--ink)" opacity=".4"/><circle cx="${x(hov)}" cy="${y(A[hov])}" r="4.5" fill="var(--cr)"/><circle cx="${x(hov)}" cy="${y(B[hov])}" r="4.5" fill="var(--ac)"/>;
+return{svg:o+"</svg>",A,B,x,W}}
+function detail(){const p=data.find(q=>q.sku===cur),c=chart(p),h=hov??0;
+$("detail").innerHTML=<div class="head"><div><h2>${p.name} ${bd(p.risk)}</h2><p class="hint">${p.sku} · ${p.wh}</p></div></div><div class="facts"><div>Demand<b>${f1(p.a)}/day</b></div><div>Reorder point<b>${p.rop} units</b></div><div>Runs out<b>${p.days>=60?"After 60 days":dt(p.days)}</b></div></div><div id="tip">Day ${h} (${dt(h)}): <b style="color:var(--cr)">${Math.round(c.A[h])}</b> units without a new order, <b style="color:var(--ac)">${Math.round(c.B[h])}</b> with the recommended order.</div><div id="chartBox">${c.svg}</div><div class="lg"><span style="color:var(--cr)">━ Without new order</span><span style="color:var(--ac)">━ With recommended order</span><span>Red band: days with no stock</span></div><div class="rec" style="margin-top:12px"><span>${p.qty?`Order ${p.qty} units from ${p.ch.name}, arriving ${dt(p.ch.eff)}:"No order needed. Keep monitoring."}</span>${p.qty?'<button class="pri" id="goOrder">Review order</button>':""}</div>`;
+const box=$("chartBox");box.onpointermove=e=>{const r=box.getBoundingClientRect(),t=Math.max(0,Math.min(45,Math.round(((e.clientX-r.left)/r.width*c.W-46)/(c.W-58)*45)));if(t!==hov){hov=t;detail()}};box.onpointerleave=()=>{hov=null;detail()};
+if($("goOrder"))$("goOrder").onclick=()=>setTab("orders")}
+function render(){calc();const ur=data.filter(p=>["CRITICAL","HIGH"].includes(p.risk)),tot=plan.reduce((s,p)=>s+p.cost,0),low=[...data].sort((x,y)=>x.days-y.days)[0],dem=data.reduce((s,p)=>s+p.a*p.fast,0),sh=data.reduce((s,p)=>s+Math.max(0,Math.min(p.gap,p.fast))*p.a,0);
+$("asof").textContent="As of "+today.toLocaleDateString("en-US",{weekday:"long",month:"long",day:"numeric"})+" · 6 products, 3 warehouses";
+$("k1").textContent=ur.length;$("k2").textContent=money(tot);$("k3").textContent=f1(low.days)+" days";$("k4").textContent=(100*(1-sh/dem)).toFixed(1)+"%";
+$("alert").classList.toggle("ok",!ur.length);$("alertT").textContent=ur.length?${ur.length} of ${data.length} products will run out before a restock can arrive. ${plan.length} orders are ready to review.:"No product is expected to run out before restock.";
+$("rows").innerHTML=data.filter(p=>flt==="all"||["CRITICAL","HIGH","WATCH"].includes(p.risk)).sort((a,b)=>a.days-b.days).map(p=><tr class="sku ${p.sku===cur?"on":""}" data-sku="${p.sku}" tabindex="0"><td><b>${p.name}</b><small>${p.wh}</small></td><td class="r">${p.stock}${p.oo?<small>+${p.oo.q} due ${dt(p.oo.eta)}</small>:""}</td><td><div class="track ${p.risk}"><span class="fill" style="width:${Math.min(100,p.days/30*100)}%"></span><span class="mark" style="left:${Math.min(99,p.fast/30*100)}%"></span></div><small>${f1(p.days)} days · delivery in ${p.fast}</small></td><td>${bd(p.risk)}<small>${p.gap>=0?`Out ${f1(p.gap)}d before delivery:${f1(-p.gap)}d margin}</small></td></tr>`).join("")||'<tr><td colspan="4">Nothing at risk. Switch to “All” to see every product.</td></tr>';
+detail();
+$("planRows").innerHTML=plan.map(p=>{const is=issued[p.sku];return`<tr><td><input type="checkbox" data-c="${p.sku}" aria-label="Select ${p.name}" ${sel.has(p.sku)?"checked":""} ${is?"disabled":""}></td><td><b>${p.name}</b> ${bd(p.risk)}<small>${p.wh} · MOQ ${p.moq}</small></td><td>${is?p.ch.name:<select class="sup" data-s="${p.sku}" aria-label="Supplier for ${p.name}">${p.opts.map((s,i)=><option ${s.name===p.ch.name?"selected":""}>${s.name}</option>).join("")}</select><small>${money(p.ch.price)}/unit · ${p.ch.eff}d · ${Math.round(p.ch.ontime*100)}% on-time</small>}</td><td class="r">${is?p.qty:<input class="qty" type="number" data-q="${p.sku}" min="${p.moq}" max="${p.ch.cap}" value="${p.qty}" aria-label="Quantity for ${p.name}"><small>max ${p.ch.cap}</small>}</td><td class="r">${dt(p.ch.eff)}</td><td class="r"><b>${money(p.cost)}</b>${is?<small><span class="badge ${is.big?"pend":"done"}">${is.po} ${is.big?"awaiting approval":"sent"}</span></small>:""}</td></tr>`}).join("")||'<tr><td colspan="6">No orders needed in this scenario.</td></tr>';
+const act=plan.filter(p=>!issued[p.sku]),sc=[...sel].filter(s=>act.some(p=>p.sku===s)),sv=sc.reduce((s,k)=>s+plan.find(p=>p.sku===k).cost,0);
+$("selInfo").textContent=sc.length?${sc.length} selected · ${money(sv)}:"Select orders to continue";$("create").disabled=!sc.length;$("all").checked=act.length>0&&sc.length===act.length;
+$("log").innerHTML=logs.map(l=><li>${l[1]}<br><small>${l[0]}</small></li>).join("")||'<li><small>No activity yet. Approve an order to start the log.</small></li>';
+$("supRows").innerHTML=data.flatMap(p=>p.opts.map((s,i)=><tr class="${i?"":"best"}"><td>${p.name}</td><td><b>${s.name}</b> ${i?"":'<span class="badge done">Recommended</span>'}</td><td class="r">${money(s.price)}</td><td class="r">${s.eff} days</td><td class="r">${Math.round(s.ontime*100)}%</td><td class="r">${s.cap}</td><td class="r"><b>${s.score}</b></td></tr>)).join("");
+document.querySelectorAll("#presets button").forEach((b,i)=>b.setAttribute("aria-pressed",PRE[i][1]===st.demand&&PRE[i][2]===st.delay&&PRE[i][3]===st.safety))}
+function toast(s){const t=$("toast");t.textContent=s;t.classList.add("on");clearTimeout(window.tt);window.tt=setTimeout(()=>t.classList.remove("on"),3800)}
+const now=()=>new Date().toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"});
+function sync(){["demand","delay","safety","cover"].forEach(i=>$(i).value=st[i]);$("demandV").textContent="+"+st.demand+"%";$("delayV").textContent=st.delay+" days";$("safetyV").textContent=st.safety.toFixed(2)+"×";$("coverV").textContent=st.cover+" days"}
+function changed(){sel.clear();issued={};ovr={};qO={};sync();render()}
+function setTab(t){tab=t;document.querySelectorAll(".tab").forEach(b=>b.setAttribute("aria-selected",b.dataset.tab===t));["overview","orders","suppliers"].forEach(x=>$(x).classList.toggle("hidden",x!==t));scrollTo({top:0,behavior:"smooth"})}
+PRE.forEach(p=>{const b=document.createElement("button");b.textContent=p[0];b.onclick=()=>{st.demand=p[1];st.delay=p[2];st.safety=p[3];changed();logs.unshift([now(),Scenario set to “${p[0]}”.])&&render()};$("presets").append(b)});
+["demand","delay","safety","cover"].forEach(i=>$(i).addEventListener("input",e=>{st[i]=Number(e.target.value);changed()}));
+$("objective").onchange=e=>{st.objective=e.target.value;changed()};
+document.querySelectorAll(".tab").forEach(b=>b.onclick=()=>setTab(b.dataset.tab));$("review").onclick=()=>setTab("orders");
+$("chips").onclick=e=>{if(e.target.dataset.f){flt=e.target.dataset.f;document.querySelectorAll("#chips button").forEach(b=>b.setAttribute("aria-pressed",b===e.target));render()}};
+const pick=e=>{const r=e.target.closest("tr.sku");if(r&&(e.type==="click"||e.key==="Enter")){cur=r.dataset.sku;hov=null;render()}};$("rows").onclick=pick;$("rows").onkeydown=pick;
+$("planRows").onchange=e=>{const t=e.target.dataset;if(t.c){e.target.checked?sel.add(t.c):sel.delete(t.c)}if(t.s)ovr[t.s]=e.target.value;if(t.q)qO[t.q]=Math.round(Number(e.target.value))||0;render()};
+$("all").onchange=e=>{plan.filter(p=>!issued[p.sku]).forEach(p=>e.target.checked?sel.add(p.sku):sel.delete(p.sku));render()};
+let groups=[];$("create").onclick=()=>{const m={};[...sel].forEach(k=>{const p=plan.find(q=>q.sku===k);(m[p.ch.name]=m[p.ch.name]||[]).push(p)});let n=seq;groups=Object.entries(m).map(([s,l])=>({s,l,po:"PO-26-"+(++n),t:l.reduce((a,p)=>a+p.cost,0)}));
+$("dlgBody").innerHTML=groups.map(g=><div class="po"><header><span>${g.po} · ${g.s}</span><span>${money(g.t)}</span></header>${g.l.map(p=>${p.qty} × ${p.name} · arrives ${dt(p.ch.eff)}).join("<br>")}${g.t>25000?'<br><span class="badge pend" style="margin-top:6px">Needs manager approval</span>':""}</div>).join("");$("dlg").showModal()};
+$("cancel").onclick=()=>$("dlg").close();
+$("confirm").onclick=()=>{groups.forEach(g=>{seq++;g.l.forEach(p=>{issued[p.sku]={po:g.po,big:g.t>25000};sel.delete(p.sku)});logs.unshift([now(),${g.po} to ${g.s} for ${money(g.t)} ${g.t>25000?"sent to manager for approval":"sent to supplier"}.])});$("dlg").close();render();toast(${groups.length} purchase order${groups.length>1?"s":""} created.)};
+$("export").onclick=()=>{const rows=[["SKU","Product","Warehouse","Risk","Stock","Daily demand","Days of stock","Supplier","Quantity","Arrives","Unit price","Cost"],...plan.map(p=>[p.sku,p.name,p.wh,p.risk,p.stock,p.a.toFixed(2),p.days.toFixed(2),p.ch.name,p.qty,dt(p.ch.eff),p.ch.price,p.cost])],csv=rows.map(r=>r.map(x=>'"'+String(x).replaceAll('"','""')+'"').join(",")).join("\n"),a=document.createElement("a"),u=URL.createObjectURL(new Blob([csv],{type:"text/csv"}));a.href=u;a.download="supplychainiq_order_plan.csv";a.click();URL.revokeObjectURL(u);toast("Plan downloaded.")};
+$("reset").onclick=()=>{st={...def};$("objective").value="balanced";changed();toast("Scenario reset.")};
+sync();render();
+</script></body></html>
